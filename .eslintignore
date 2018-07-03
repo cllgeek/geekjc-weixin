@@ -1,0 +1,5 @@
+build/*.js
+config/*.js
+src/pages/post/*.vue
+src/pages/photoDetail/*.vue
+src/components/*.vue
