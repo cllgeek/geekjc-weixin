@@ -43,6 +43,11 @@
           <photoList :items="results" />
         </view>
       </view>
+      <view v-else-if="item === 'movie'">
+        <view>
+          <movieList :items="results" />
+        </view>
+      </view>
       <view style="text-align: center;margin-top:20px" v-if="results.length === 0">暂无数据</view>
       <view v-if="isLoadMore" class="refresh_root">
         <!-- <image src="/static/images/loading.gif" class="refresh"></image> -->
@@ -57,6 +62,7 @@ import { post } from '@/utils/request';
 import defaultFollowTags from '../defaultTags';
 import postItem from './postItem';
 import photoList from './photoList';
+import movieList from './movieList';
 
 const getDefaultActiveItemOrUrl = (key) => {
   if(key === 'post') {
@@ -68,6 +74,11 @@ const getDefaultActiveItemOrUrl = (key) => {
     return {
       url: '/api/tags/tagPhoto',
       activeItem: '美食'
+    };
+  } else if(key === 'movie') {
+    return {
+      url: '/api/tags/tagMovie',
+      activeItem: '动作片'
     };
   }
 }
@@ -89,6 +100,7 @@ export default {
   components: {
     postItem,
     photoList,
+    movieList,
   },
 
   methods: {
@@ -115,6 +127,15 @@ export default {
               likes: val.likes,
               url: val.url,
               pv: val.pv
+            });
+          });
+        } else if(this.item === 'movie') {
+          result.tag[`${this.item}s`].map((val,i)=>{
+            contents.push({
+              id: val._id,
+              title: val.title,
+              img_url: val.img_url,
+              meta: this.$moment(val.meta.updateAt).format('YYYY-MM-DD')
             });
           });
         }

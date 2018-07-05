@@ -19,22 +19,34 @@
     </swiper>
     <view class='itemHeader'>
       <text>最新文章</text>
-      <navigator class='checkMore' url='/pages/post/index' open-type='switchTab' hover-class='navigatorHover'>查看更多</navigator>
+      <navigator class='checkMore' url='/pages/post/main' open-type='switchTab' hover-class='navigatorHover'>查看更多</navigator>
+    </view>
+    <view class="content-post">
+      <postItem :items="posts" />
     </view>
     <view class='itemHeader'>
       <text>最新电影</text>
-      <navigator class='checkMore' url='/pages/post/index' open-type='switchTab' hover-class='navigatorHover'>查看更多</navigator>
+      <navigator class='checkMore' url='/pages/movie/index' open-type='switchTab' hover-class='navigatorHover'>查看更多</navigator>
+    </view>
+    <view>
+      <movieList :items="movies" />
     </view>
     <view class='itemHeader'>
       <text>最新图片</text>
-      <navigator class='checkMore' url='/pages/post/index' open-type='switchTab' hover-class='navigatorHover'>查看更多</navigator>
+      <navigator class='checkMore' url='/pages/photo/main' open-type='switchTab' hover-class='navigatorHover'>查看更多</navigator>
+    </view>
+    <view>
+      <photoList :items="photos" />
     </view>
   </div>
 </template>
 
 <script>
-import card from '@/components/card';
+import postItem from '@/components/postItem';
+import movieList from '@/components/movieList';
+import photoList from '@/components/photoList';
 import { login, getUserInfo } from '@/utils/wechat';
+import { get } from '@/utils/request';
 
 export default {
   data() {
@@ -50,11 +62,16 @@ export default {
       autoplay: true,
       interval: 2000,
       duration: 1000,
+      posts: [],
+      movies: [],
+      photos: [],
     };
   },
 
   components: {
-    card,
+    postItem,
+    movieList,
+    photoList,
   },
 
   methods: {
@@ -71,6 +88,26 @@ export default {
         });
       });
     },
+    listNewContent() {
+      get('/api/index/listNewContent').then((res) => {
+        const { result } = res.data;
+        const { posts, movies, photos } = result;
+        posts.map((val) => {
+          val.tags = val.tags.map((v) => v.title);
+          val.id = val._id;
+        });
+        movies.map((val) => {
+          val.meta = this.$moment(val.meta.updateAt).format('YYYY-MM-DD');
+          val.id = val._id;
+        });
+        photos.map((val) => {
+          val.id = val._id;
+        })
+        this.posts = posts;
+        this.movies = movies;
+        this.photos = photos;
+      });
+    },
     clickHandle(msg, ev) {
       console.log('clickHandle:', msg, ev);
     },
@@ -79,6 +116,9 @@ export default {
   created() {
     // 调用应用实例的方法获取全局数据
     this.getUserInfo();
+
+    // 获取首页数据
+    this.listNewContent();
   },
 };
 </script>
@@ -86,6 +126,10 @@ export default {
 <style scoped>
 .index{
 
+}
+.content-post{
+  padding: 0 15px;
+  font-size: 14px;
 }
 .swiperImage{
   width: 100%;
