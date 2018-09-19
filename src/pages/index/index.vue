@@ -8,13 +8,13 @@
             :pre-margin='20'
     >
       <swiper-item>
-        <image :src='imgUrls[0]' class='swiperImage' />
+        <div class="imgWrapper"><image :src='photos[0].url' class='swiperImage' /></div>
       </swiper-item>
       <swiper-item>
-        <image :src='imgUrls[0]' class='swiperImage' />
+        <div class="imgWrapper"><image :src='photos[4].url' class='swiperImage' /></div>
       </swiper-item>
       <swiper-item>
-        <image :src='imgUrls[0]' class='swiperImage' />
+        <div class="imgWrapper"><image :src='photos[3].url' class='swiperImage' /></div>
       </swiper-item>
     </swiper>
     <view class='itemHeader'>
@@ -24,10 +24,10 @@
     <view class="content-post">
       <postItem :items="posts" />
     </view>
-    <view class='itemHeader'>
+    <!-- <view class='itemHeader'>
       <text>最新电影</text>
       <navigator class='checkMore' url='/pages/movie/index' open-type='switchTab' hover-class='navigatorHover'>查看更多</navigator>
-    </view>
+    </view> -->
     <view>
       <movieList :items="movies" />
     </view>
@@ -43,7 +43,7 @@
 
 <script>
 import postItem from '@/components/postItem';
-import movieList from '@/components/movieList';
+// import movieList from '@/components/movieList';
 import photoList from '@/components/photoList';
 import { login, getUserInfo } from '@/utils/wechat';
 import { get } from '@/utils/request';
@@ -70,7 +70,7 @@ export default {
 
   components: {
     postItem,
-    movieList,
+    // movieList,
     photoList,
   },
 
@@ -79,15 +79,15 @@ export default {
       const url = '../logs/main';
       wx.navigateTo({ url });
     },
-    getUserInfo() {
-      // 调用登录接口
-      login().then(() => {
-        getUserInfo().then((data) => {
-          this.userInfo = data.userInfo;
-          console.log(data);
-        });
-      });
-    },
+    // getUserInfo() {
+    //   // 调用登录接口
+    //   login().then(() => {
+    //     getUserInfo().then((data) => {
+    //       this.userInfo = data.userInfo;
+    //       console.log(data);
+    //     });
+    //   });
+    // },
     listNewContent() {
       get('/api/index/listNewContent').then((res) => {
         const { result } = res.data;
@@ -96,15 +96,15 @@ export default {
           val.tags = val.tags.map((v) => v.title);
           val.id = val._id;
         });
-        movies.map((val) => {
-          val.meta = this.$moment(val.meta.updateAt).format('YYYY-MM-DD');
-          val.id = val._id;
-        });
+        // movies.map((val) => {
+        //   val.meta = this.$moment(val.meta.updateAt).format('YYYY-MM-DD');
+        //   val.id = val._id;
+        // });
         photos.map((val) => {
           val.id = val._id;
         })
         this.posts = posts;
-        this.movies = movies;
+        // this.movies = movies;
         this.photos = photos;
       });
     },
@@ -115,7 +115,7 @@ export default {
 
   created() {
     // 调用应用实例的方法获取全局数据
-    this.getUserInfo();
+    // this.getUserInfo();
 
     // 获取首页数据
     this.listNewContent();
@@ -130,6 +130,10 @@ export default {
 .content-post{
   padding: 0 15px;
   font-size: 14px;
+}
+.imgWrapper{
+  width: 100%;
+  overflow: hidden;
 }
 .swiperImage{
   width: 100%;

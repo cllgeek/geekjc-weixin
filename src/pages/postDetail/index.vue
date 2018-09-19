@@ -17,7 +17,7 @@
       </view>
       <button class="weui-btn mini-btn" type="default" size="mini" style='float: right;margin-top: 5px'>关注</button>
     </view>
-    <view style="clear: both"><rich-text :nodes="nodes"></rich-text></view>
+    <view class="content"><rich-text :nodes="nodes"></rich-text></view>
   </view>
     <div class="fixFooter flex-wrap row-flex">
       <input class="commentInput flex-wrap" style="flex:4" placeholder="发表评论" />
@@ -30,9 +30,10 @@
 <script>
 import { get } from '@/utils/request';
 import gicon from '@/components/gicon';
-import 'prismjs/themes/prism.css';
 import MpvueMarkdownParser from 'mpvue-markdown-parser';
+import CryptoJS from 'crypto-js';
 import 'mpvue-markdown-parser/dist/index.css';
+import 'prismjs/themes/prism.css';
 
 export default {
   data() {
@@ -51,9 +52,13 @@ export default {
       get(`/fetch/post/list/${id}`).then((res) => {
         const result = res.data;
         const { post, md } = result;
+        // 解密
+        const baseResult = CryptoJS.enc.Base64.parse(md); // Base64解密
+        const resultReadme = CryptoJS.enc.Utf8.stringify(baseResult); // Base64解密
+        const encodeMd = resultReadme;
         post.meta.updateAt = post.meta && post.meta.updateAt ? this.$moment(post.meta.updateAt).format('YYYY-MM-DD') : post.meta.updateAt;
         this.post = post;
-        this.nodes = MpvueMarkdownParser(md);
+        this.nodes = MpvueMarkdownParser(encodeMd);
       });
     },
   },
@@ -89,6 +94,10 @@ export default {
   background: #fff;
   border-radius: 40px;
   margin-right: 10px;
+}
+.content{
+  clear: both;
+  padding-bottom: 40px;
 }
 .fixFooter{
   position: fixed;

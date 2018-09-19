@@ -38,6 +38,11 @@
           <postItem :items="results" />
         </view>
       </view>
+      <view v-else-if="item === 'ebook'">
+        <view class="content-ebook">
+          <ebookItem :items="results" />
+        </view>
+      </view>
       <view v-else-if="item === 'photo'">
         <view class="content-photo">
           <photoList :items="results" />
@@ -63,9 +68,10 @@ import defaultFollowTags from '../defaultTags';
 import postItem from './postItem';
 import photoList from './photoList';
 import movieList from './movieList';
+import ebookItem from './ebookItem';
 
 const getDefaultActiveItemOrUrl = (key) => {
-  if(key === 'post') {
+  if(key === 'post' || key === 'ebook') {
     return {
       url: '/api/tags/tag',
       activeItem: '前端开发'
@@ -101,24 +107,36 @@ export default {
     postItem,
     photoList,
     movieList,
+    ebookItem
   },
 
   methods: {
     getTagDetail(title, clear) {
       let url = getDefaultActiveItemOrUrl(this.item).url;
-      post(url, { title, pageOffset: !clear && this.nextPageOffset, pageSize: 10 }).then((res) => {
+      const params = {
+        title,
+        pageOffset: !clear && this.nextPageOffset,
+        pageSize: 10,
+        type: (this.item === 'post' || this.item === 'ebook') ? `${this.item}s` : undefined,
+      }
+      post(url, params).then((res) => {
         const result = res.data;
         let contents = [];
-        if(this.item === 'post') {
+        if(this.item === 'post' || this.item === 'ebook') {
           result.tag[`${this.item}s`].map((val,i)=>{
             contents.push({
               id: val._id,
               author: val.author,
               title: val.title,
               pv: val.pv,
+              title: val.title,
+              img: val.img && val.img[0].url,
+              price: val.price,
               tags: val.tags.map( (val) => val.title),
             });
           });
+        } else if(this.item === 'ebook') {
+
         } else if(this.item === 'photo') {
           result.tag[`${this.item}s`].map((val,i)=>{
             contents.push({
@@ -233,7 +251,11 @@ export default {
     padding: 0 15px;
     font-size: 14px;
   }
+  .content-ebook{
+    margin-top: 5px;
+  }
   .content-photo{
+    margin-top: 5px;
     font-size: 14px;
   }
   .refresh_root {

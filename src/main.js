@@ -14,8 +14,8 @@ export default {
   // 这个字段走 app.json
   config: {
     // 页面前带有 ^ 符号的，会被编译成首页，其他页面可以选填，我们会自动把 webpack entry 里面的入口页面加进去
-    pages: ['pages/logs/main', '^pages/index/main', 'pages/post/main',
-      'pages/postDetail/main', 'pages/photo/main', 'pages/photoDetail/main', 'pages/movie/main', 'pages/movieDetail/main'],
+    pages: ['pages/logs/main', 'pages/index/main', 'pages/post/main',
+      'pages/postDetail/main', 'pages/photo/main', 'pages/photoDetail/main', '^pages/ebook/ebookListPage/main', 'pages/ebook/ebookDesc/main'],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',
@@ -34,10 +34,10 @@ export default {
         pagePath: 'pages/post/main',
         text: '文章',
       }, {
-        selectedIconPath: '/static/images/movie_active.png',
-        iconPath: '/static/images/movie.png',
-        pagePath: 'pages/movie/main',
-        text: '电影',
+        selectedIconPath: '/static/images/ebook_active.png',
+        iconPath: '/static/images/ebook.png',
+        pagePath: 'pages/ebook/ebookListPage/main',
+        text: '电子书',
       }, {
         selectedIconPath: '/static/images/photo_active.png',
         iconPath: '/static/images/photo.png',
