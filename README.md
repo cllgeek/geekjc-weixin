@@ -26,3 +26,4 @@ For detailed explanation on how things work, checkout the [guide](http://vuejs-t
 ## 技术选型
 对于微信小程序，到现在为止，可选的开发方式太多了。
 目前所知的开发方式有: [原生开发](https://developers.weixin.qq.com/miniprogram/dev/quickstart/basic/getting-started.html)，[wepy](https://tencent.github.io/wepy/document.html#/)，[mpvue](http://mpvue.com/)，[taro](https://taro.aotu.io/)。
+文章：[小程序开发框架技术分析选型](https://www.geekjc.com/post/5b55c59adef4a35c8282cb0d)

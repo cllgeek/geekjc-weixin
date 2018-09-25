@@ -16,10 +16,10 @@
       </div>
       <div style="text-align: center">
         <div v-if="ebookDesc.price > 0">
-            <button class="weui-btn mini-btn" type="default" size="mini">试读</button>
+            <button class="weui-btn mini-btn" type="default" size="mini" @click.stop="switchTo(ebookDesc && ebookDesc._id)">试读</button>
         </div>
         <div v-else>
-          <button class="weui-btn mini-btn" type="default" size="mini">免费阅读</button>
+          <button class="weui-btn mini-btn" type="default" size="mini" @click.stop="switchTo(ebookDesc && ebookDesc._id)">免费阅读</button>
         </div>
       </div>
     </view>
@@ -55,6 +55,10 @@ export default {
         const result = res.data;
         this.ebookDesc = result;
       });
+    },
+
+    switchTo(id) {
+      wx.navigateTo({ url: `/pages/ebook/ebookDetail/main?id=${id}` });
     },
   },
 

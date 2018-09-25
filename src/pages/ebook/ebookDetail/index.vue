@@ -1,23 +1,34 @@
 <template>
   <view class="root">
-    <h2 style="text-align: center">nodejs基础教程</h2>
+    <h2 style="text-align: center">{{currentTitle}}</h2>
     <scroll-view
       class="scrollViewY"
       :scroll-y="true"
       :scroll-with-animation="true"
     >
-      <view class="content"><rich-text :nodes="nodes"></rich-text></view>
+      <view class="content" v-if="vip === true"><rich-text :nodes="nodes"></rich-text></view>
+      <div class="page" v-else>
+        <div class="weui-msg">
+            <div class="weui-msg__icon-area">
+                <icon type="warn" size="93"></icon>
+            </div>
+            <div class="weui-msg__text-area">
+                <div class="weui-msg__title">本章节为付费阅读</div>
+                <div class="weui-msg__desc">如想购买电子书，请前往电脑版本购买本电子书，可解锁阅读，网址：https://www.geekjc.com</div>
+            </div>
+        </div>
+      </div>
     </scroll-view>
     <view class="fixedFooter">
       <div class="weui-flex">
         <div class="weui-flex__item">
-          <div class="placeholder">上一节</div>
+          <div class="placeholder" @click="onClickPage(2)">上一节</div>
         </div>
         <div class="weui-flex__item">
           <div class="placeholder" @click="showCatalog = true">目录</div>
         </div>
         <div class="weui-flex__item">
-          <div class="placeholder">下一节</div>
+          <div class="placeholder" @click="onClickPage(1)">下一节</div>
         </div>
       </div>
     </view>
@@ -51,10 +62,13 @@ export default {
       title: '',
       img: [],
       author: {},
-      content: '',
       nodes: {},
       // 包含上下页信息对象
-		  actionObject: {},
+      actionObject: {},
+      // 当前目录title
+      currentTitle: '',
+      // 当前是否购买
+      vip: true,
     };
   },
   components: {
@@ -62,8 +76,8 @@ export default {
   },
   methods: {
     // 得到电子书catalog
-    getEbookCatalog() {
-      post('/api/ebook/getEbookCatalog', { ebookId: '5b9f65ce0f510f6ae689bccd' }).then((res) => {
+    getEbookCatalog(id) {
+      post('/api/ebook/getEbookCatalog', { ebookId: id }).then((res) => {
         const {
           catalog,
           price,
@@ -77,6 +91,7 @@ export default {
           this.title = title;
           this.img = img;
           this.author = author;
+          this.ebookId = id;
           this.getEbookContent(catalog[0]);
         }
       });
@@ -84,21 +99,49 @@ export default {
     // 得到对应的内容
     getEbookContent(currentCatalog, parent) {
       const params = {
-        ebookId: '5b9f65ce0f510f6ae689bccd',
+        ebookId: this.ebookId,
         currentCatalog,
       };
       post('/api/ebook/getEbookContent', params).then((res) => {
         const { content } = res.data;
         if (content) {
+          this.currentTitle = currentCatalog.title;
           this.actionObject = this.judgePage(this.catalog,currentCatalog,parent);
           const currentContent = content[0] || {};
           this.nodes = MpvueMarkdownParser(currentContent.content);
+          if(content === 1) this.vip = false;
         }
       });
     },
     // 当前树节点
     getCatalogId(selectNode, parent) {
       this.getEbookContent(selectNode, parent);
+    },
+    /**
+     * @desc 点击下一页或上一页
+     * @param {Number} type 1为下一页，2位上一页
+     */
+    onClickPage(type) {
+      const actionObject = this.actionObject;
+      if(type === 1) {
+        if(!actionObject.nextPageCatalog) {
+          wx.showModal({
+            content: '已经是最后一节',
+            showCancel: false,
+          });
+          return;
+        };
+        this.getEbookContent(actionObject.nextPageCatalog,actionObject.nextParent);
+      } else if(type === 2){
+        if(!actionObject.lastPageCatalog) {
+          wx.showModal({
+            content: '已经是第一节',
+            showCancel: false,
+          });
+          return;
+        };
+        this.getEbookContent(actionObject.lastPageCatalog,actionObject.lastParent);
+      }
     },
     /**
      * @desc 判断是否有上一页，下一页函数
@@ -198,8 +241,9 @@ export default {
       return { nextPageCatalog,lastPageCatalog,nextParent,lastParent };
     },
   },
-  onLoad() {
-    this.getEbookCatalog();
+  onLoad(options) {
+    const { id } = options;
+    this.getEbookCatalog(id);
   },
 };
 </script>

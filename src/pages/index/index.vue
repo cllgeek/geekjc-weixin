@@ -7,14 +7,11 @@
             :current='0'
             :pre-margin='20'
     >
-      <swiper-item>
-        <div class="imgWrapper"><image :src='photos[0].url' class='swiperImage' /></div>
-      </swiper-item>
-      <swiper-item>
-        <div class="imgWrapper"><image :src='photos[4].url' class='swiperImage' /></div>
-      </swiper-item>
-      <swiper-item>
-        <div class="imgWrapper"><image :src='photos[3].url' class='swiperImage' /></div>
+      <swiper-item v-for="(item,index) in ebooks" :key="index">
+        <div class="imgWrapper" @click.stop="switchTo(item._id)">
+          <image :src='item.img.length !==0 && item.img[0].url' class='swiperImage' />
+          <h3 class="title">{{item.title}}</h3>
+        </div>
       </swiper-item>
     </swiper>
     <view class='itemHeader'>
@@ -53,11 +50,7 @@ export default {
     return {
       motto: 'Hello World',
       userInfo: {},
-      imgUrls: [
-        'http://img02.tooopen.com/images/20150928/tooopen_sy_143912755726.jpg',
-        'http://img06.tooopen.com/images/20160818/tooopen_sy_175866434296.jpg',
-        'http://img06.tooopen.com/images/20160818/tooopen_sy_175833047715.jpg',
-      ],
+      ebooks: [],
       indicatorDots: true,
       autoplay: true,
       interval: 2000,
@@ -108,8 +101,18 @@ export default {
         this.photos = photos;
       });
     },
+    getTop3Ebook() {
+      get('/api/ebook/getTop3Ebook').then((res) => {
+        const { ebooks } = res.data;
+        this.ebooks = ebooks;
+      });
+    },
     clickHandle(msg, ev) {
       console.log('clickHandle:', msg, ev);
+    },
+    // 导航到电子书描述页
+    switchTo(id) {
+      wx.navigateTo({ url: `/pages/ebook/ebookDesc/main?id=${id}` });
     },
   },
 
@@ -119,6 +122,8 @@ export default {
 
     // 获取首页数据
     this.listNewContent();
+    // 获取前三电子书
+    this.getTop3Ebook();
   },
 };
 </script>
@@ -134,9 +139,17 @@ export default {
 .imgWrapper{
   width: 100%;
   overflow: hidden;
+  position: relative;
+  height: 100%;
+}
+.title{
+  position:absolute;
+  top:34%;
+  left:34%;
 }
 .swiperImage{
   width: 100%;
+  height: 100%;
 }
 .itemHeader{
   margin-top:10px;
