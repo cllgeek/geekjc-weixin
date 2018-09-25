@@ -1,8 +1,10 @@
 import moment from 'moment';
+import lodash from 'lodash';
 import Vue from 'vue';
 import App from './App';
 
 Object.defineProperty(Vue.prototype, '$moment', { value: moment });
+Object.defineProperty(Vue.prototype, '$lodash', { value: lodash });
 
 Vue.config.productionTip = false;
 App.mpType = 'app';
@@ -15,7 +17,8 @@ export default {
   config: {
     // 页面前带有 ^ 符号的，会被编译成首页，其他页面可以选填，我们会自动把 webpack entry 里面的入口页面加进去
     pages: ['pages/logs/main', 'pages/index/main', 'pages/post/main',
-      'pages/postDetail/main', 'pages/photo/main', 'pages/photoDetail/main', '^pages/ebook/ebookListPage/main', 'pages/ebook/ebookDesc/main'],
+      'pages/postDetail/main', 'pages/photo/main', 'pages/photoDetail/main', 'pages/ebook/ebookListPage/main', 'pages/ebook/ebookDesc/main',
+      '^pages/ebook/ebookDetail/main'],
     window: {
       backgroundTextStyle: 'light',
       navigationBarBackgroundColor: '#fff',

@@ -23,10 +23,17 @@
         </div>
       </div>
     </view>
+    <view>
+      <h3 class="catalog">目录</h3>
+      <div class="treeWrapper">
+        <tree :catalog="ebookDesc.catalog"></tree>
+      </div>
+    </view>
   </view>
 </template>
 
 <script>
+import tree from '@/components/tree/tree';
 import { post } from '@/utils/request';
 
 export default {
@@ -39,6 +46,7 @@ export default {
   },
 
   components: {
+    tree,
   },
 
   methods: {
@@ -91,5 +99,12 @@ export default {
 }
 .userInfo span{
 	margin: 0 5px;
+}
+.catalog{
+  border-bottom:1px solid #ddd;
+  font-weight:700;
+}
+.treeWrapper{
+
 }
 </style>

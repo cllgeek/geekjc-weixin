@@ -1,13 +1,11 @@
 <template>
   <view>
-    <!-- <scrollPage :item='item'></scrollPage> -->
-    <tree></tree>
+    <scrollPage :item='item'></scrollPage>
   </view>
 </template>
 
 <script>
 import scrollPage from '@/components/scrollPage';
-import tree from '@/components/tree/tree';
 
 export default {
   data() {
@@ -18,7 +16,6 @@ export default {
 
   components: {
     scrollPage,
-    tree,
   },
 };
 </script>

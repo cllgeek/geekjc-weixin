@@ -3,4 +3,5 @@ config/*.js
 src/pages/post/*.vue
 src/pages/index/*.vue
 src/pages/photoDetail/*.vue
+src/pages/ebook/ebookDetail/*.vue
 src/components/*.vue
