@@ -109,7 +109,11 @@ export default {
           this.actionObject = this.judgePage(this.catalog,currentCatalog,parent);
           const currentContent = content[0] || {};
           this.nodes = MpvueMarkdownParser(currentContent.content);
-          if(content === 1) this.vip = false;
+          if(content === 1) {
+            this.vip = false;
+          } else {
+            this.vip = true;
+          }
         }
       });
     },
@@ -267,7 +271,7 @@ export default {
 .placeholder {
   border-right: 1px solid #ddd;
   text-align: center;
-  background-color: #ebebeb;
+  background-color: #333;
   height: 40px;
   line-height: 40px;
   color: #cfcfcf;
