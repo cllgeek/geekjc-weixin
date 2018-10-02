@@ -29,19 +29,6 @@ const defaultFollowTags = {
   }, {
     title: '面试',
   }],
-  movie: [{
-    title: '动作片',
-  }, {
-    title: '喜剧片',
-  }, {
-    title: '连续剧',
-  }, {
-    title: '动漫',
-  }, {
-    title: '科幻片',
-  }, {
-    title: '恐怖片',
-  }],
   photo: [{
     title: '美食',
   }, {

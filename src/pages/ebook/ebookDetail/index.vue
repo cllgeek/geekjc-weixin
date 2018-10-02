@@ -3,6 +3,7 @@
     <h2 style="text-align: center">{{currentTitle}}</h2>
     <scroll-view
       class="scrollViewY"
+      :scroll-top="scrollTop"
       :scroll-y="true"
       :scroll-with-animation="true"
     >
@@ -56,6 +57,7 @@ import 'prismjs/themes/prism.css';
 export default {
   data() {
     return {
+      scrollTop: 0,
       showCatalog: false,
       catalog: {},
       price: 0,
@@ -105,10 +107,13 @@ export default {
       post('/api/ebook/getEbookContent', params).then((res) => {
         const { content } = res.data;
         if (content) {
+          this.showCatalog = false;
           this.currentTitle = currentCatalog.title;
           this.actionObject = this.judgePage(this.catalog,currentCatalog,parent);
           const currentContent = content[0] || {};
           this.nodes = MpvueMarkdownParser(currentContent.content);
+          // 每次获取内容，滚动到顶部
+          this.scrollTop = 0;
           if(content === 1) {
             this.vip = false;
           } else {
@@ -246,6 +251,10 @@ export default {
     },
   },
   onLoad(options) {
+    // 显示转发按钮
+    wx.showShareMenu({
+      withShareTicket: true,
+    });
     const { id } = options;
     this.getEbookCatalog(id);
   },
@@ -255,6 +264,7 @@ export default {
 <style scoped>
 .root{
   position: relative;
+  background-color: #f8f8f8;
 }
 .scrollViewY{
   width: 100%;

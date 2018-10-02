@@ -63,6 +63,10 @@ export default {
 
   },
   onLoad(options) {
+    // 显示转发按钮
+    wx.showShareMenu({
+      withShareTicket: true,
+    });
     const { id } = options;
     this.getPostDetail(id);
   },

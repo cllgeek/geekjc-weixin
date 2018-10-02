@@ -4,4 +4,5 @@ src/pages/post/*.vue
 src/pages/index/*.vue
 src/pages/photoDetail/*.vue
 src/pages/ebook/ebookDetail/*.vue
+src/pages/login/*.vue
 src/components/*.vue

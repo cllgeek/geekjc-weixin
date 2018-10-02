@@ -21,13 +21,6 @@
     <view class="content-post">
       <postItem :items="posts" />
     </view>
-    <!-- <view class='itemHeader'>
-      <text>最新电影</text>
-      <navigator class='checkMore' url='/pages/movie/index' open-type='switchTab' hover-class='navigatorHover'>查看更多</navigator>
-    </view> -->
-    <view>
-      <movieList :items="movies" />
-    </view>
     <view class='itemHeader'>
       <text>最新图片</text>
       <navigator class='checkMore' url='/pages/photo/main' open-type='switchTab' hover-class='navigatorHover'>查看更多</navigator>
@@ -40,7 +33,6 @@
 
 <script>
 import postItem from '@/components/postItem';
-// import movieList from '@/components/movieList';
 import photoList from '@/components/photoList';
 import { login, getUserInfo } from '@/utils/wechat';
 import { get } from '@/utils/request';
@@ -56,14 +48,12 @@ export default {
       interval: 2000,
       duration: 1000,
       posts: [],
-      movies: [],
       photos: [],
     };
   },
 
   components: {
     postItem,
-    // movieList,
     photoList,
   },
 
@@ -72,15 +62,6 @@ export default {
       const url = '../logs/main';
       wx.navigateTo({ url });
     },
-    // getUserInfo() {
-    //   // 调用登录接口
-    //   login().then(() => {
-    //     getUserInfo().then((data) => {
-    //       this.userInfo = data.userInfo;
-    //       console.log(data);
-    //     });
-    //   });
-    // },
     listNewContent() {
       get('/api/index/listNewContent').then((res) => {
         const { result } = res.data;
@@ -89,15 +70,10 @@ export default {
           val.tags = val.tags.map((v) => v.title);
           val.id = val._id;
         });
-        // movies.map((val) => {
-        //   val.meta = this.$moment(val.meta.updateAt).format('YYYY-MM-DD');
-        //   val.id = val._id;
-        // });
         photos.map((val) => {
           val.id = val._id;
         })
         this.posts = posts;
-        // this.movies = movies;
         this.photos = photos;
       });
     },
@@ -115,15 +91,18 @@ export default {
       wx.navigateTo({ url: `/pages/ebook/ebookDesc/main?id=${id}` });
     },
   },
-
-  created() {
-    // 调用应用实例的方法获取全局数据
-    // this.getUserInfo();
-
+  onLoad() {
     // 获取首页数据
     this.listNewContent();
     // 获取前三电子书
     this.getTop3Ebook();
+  },
+  created() {
+    wx.login({
+      success: function(data) {
+        console.log(data);
+      },
+    })
   },
 };
 </script>

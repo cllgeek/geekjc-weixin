@@ -47,6 +47,7 @@ export default {
     position: relative;
     z-index: 1;
     font-size: 14px;
+    margin-bottom: 5px;
   }
   .blockItem:before{
     left: 6px;
