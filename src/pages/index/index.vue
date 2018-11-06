@@ -1,5 +1,16 @@
 <template>
   <div>
+    <div class="weui-flex headerInfo" v-if="showHeaderInfo">
+      <div>
+        <gicon type="xiaoxi" sy="margin: 0 10px;font-size: 16px"></gicon>
+      </div>
+      <div class="weui-flex__item" style="margin-top: -6px">
+        <div>点击右上角<div class="ellipse">.<span class="ellipseBig">.</span>.</div>添加到我的小程序，使用更方便</div>
+      </div>
+      <div style="width: 6vw" @click="onCloseTips">
+        <div style="font-size: 20px">x</div>
+      </div>
+    </div>
     <swiper :autoplay='autoplay'
             :indicator-dots='indicatorDots'
             :duration='duration'
@@ -21,6 +32,9 @@
     <view class="content-post">
       <postItem :items="posts" />
     </view>
+    <view class="index01">
+      <ad unit-id="adunit-ba3e040b2eb17836"></ad>
+    </view>
     <view class='itemHeader'>
       <text>最新图片</text>
       <navigator class='checkMore' url='/pages/photo/main' open-type='switchTab' hover-class='navigatorHover'>查看更多</navigator>
@@ -34,12 +48,14 @@
 <script>
 import postItem from '@/components/postItem';
 import photoList from '@/components/photoList';
+import gicon from '@/components/gicon';
 import { login, getUserInfo } from '@/utils/wechat';
 import { get } from '@/utils/request';
 
 export default {
   data() {
     return {
+      showHeaderInfo: true,
       motto: 'Hello World',
       userInfo: {},
       ebooks: [],
@@ -55,12 +71,17 @@ export default {
   components: {
     postItem,
     photoList,
+    gicon,
   },
 
   methods: {
     bindViewTap() {
       const url = '../logs/main';
       wx.navigateTo({ url });
+    },
+    // 关闭添加至小程序提示
+    onCloseTips() {
+      this.showHeaderInfo = false;
     },
     listNewContent() {
       get('/api/index/listNewContent').then((res) => {
@@ -111,6 +132,26 @@ export default {
 .index{
 
 }
+.headerInfo {
+  position: relative;
+  height: 30px;
+  line-height: 30px;
+  background-color: rgb(253, 252, 236);
+  color: rgb(222, 83, 15);
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+.ellipse{
+  display: inline-block;
+  position: relative;
+  top: -2px;
+  margin-left: -3px;
+}
+.ellipseBig{
+  margin-left:-4px;
+  margin-right: -1px;
+  font-size:30px;
+}
 .content-post{
   padding: 0 15px;
   font-size: 14px;
@@ -143,5 +184,8 @@ export default {
   float:right;
   font-size:12px;
   color:#666;
+}
+.index01{
+  margin-top: 10px;
 }
 </style>

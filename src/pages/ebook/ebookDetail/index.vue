@@ -1,5 +1,16 @@
 <template>
   <view class="root">
+    <div class="weui-flex headerInfo" v-if="showHeaderInfo">
+      <div>
+        <gicon type="xiaoxi" sy="margin: 0 10px;font-size: 16px"></gicon>
+      </div>
+      <div class="weui-flex__item" @click.stop="onGotoOther">
+        <div>觉得对你有帮助，欢迎支持开发小哥，点击打赏</div>
+      </div>
+      <div style="width: 6vw" @click="onCloseTips">
+        <div style="font-size: 20px">x</div>
+      </div>
+    </div>
     <h2 style="text-align: center">{{currentTitle}}</h2>
     <scroll-view
       class="scrollViewY"
@@ -49,6 +60,7 @@
 
 <script>
 import tree from '@/components/tree/tree';
+import gicon from '@/components/gicon';
 import { post } from '@/utils/request';
 import MpvueMarkdownParser from 'mpvue-markdown-parser';
 import 'mpvue-markdown-parser/dist/index.css';
@@ -57,6 +69,7 @@ import 'prismjs/themes/prism.css';
 export default {
   data() {
     return {
+      showHeaderInfo: true,
       scrollTop: 0,
       showCatalog: false,
       catalog: {},
@@ -75,8 +88,23 @@ export default {
   },
   components: {
     tree,
+    gicon,
   },
   methods: {
+    // 关闭添加至小程序提示
+    onCloseTips() {
+      this.showHeaderInfo = false;
+    },
+    // 跳转给赞小程序
+    onGotoOther() {
+      wx.navigateToMiniProgram({
+        appId: 'wx18a2ac992306a5a4',
+        path: 'pages/apps/largess/detail?accountId=5662777',
+        success(res) {
+          console.log('跳转成功!')
+        },
+      })
+    },
     // 得到电子书catalog
     getEbookCatalog(id) {
       post('/api/ebook/getEbookCatalog', { ebookId: id }).then((res) => {
@@ -266,6 +294,26 @@ export default {
   position: relative;
   background-color: #f8f8f8;
 }
+.headerInfo {
+  position: relative;
+  height: 30px;
+  line-height: 30px;
+  background-color: rgb(253, 252, 236);
+  color: rgb(222, 83, 15);
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+.ellipse{
+  display: inline-block;
+  position: relative;
+  top: -5px;
+  margin-left: -3px;
+}
+.ellipseBig{
+  margin-left:-4px;
+  margin-right: -1px;
+  font-size:30px;
+}
 .scrollViewY{
   width: 100%;
   height: 90vh;
@@ -288,6 +336,7 @@ export default {
 }
 .content{
   clear: both;
+  padding-bottom: 20px;
 }
 .mask{
   position: fixed;

@@ -17,7 +17,12 @@
       </view>
       <button class="weui-btn mini-btn" type="default" size="mini" style='float: right;margin-top: 5px'>关注</button>
     </view>
-    <view class="content"><rich-text :nodes="nodes"></rich-text></view>
+    <view class="content">
+      <rich-text :nodes="nodes"></rich-text>
+       <view class="postDetail01">
+         <ad unit-id="adunit-2f4b257c455b1808"></ad>
+       </view>
+    </view>
   </view>
     <div class="fixFooter flex-wrap row-flex">
       <input class="commentInput flex-wrap" style="flex:4" placeholder="发表评论" />
@@ -104,6 +109,7 @@ export default {
 .content{
   clear: both;
   padding-bottom: 40px;
+  background-color: #f8f8f8;
 }
 .fixFooter{
   position: fixed;
@@ -122,5 +128,8 @@ export default {
   line-height: 35px;
   font-size: 14px;
   border: 1px solid #ddd;
+}
+.postDetail01{
+  padding-bottom: 10px;
 }
 </style>

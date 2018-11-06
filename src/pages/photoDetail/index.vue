@@ -21,6 +21,9 @@
       </div>
       <p><gicon type="like" sy="margin-left: 10px;font-size: 20px"></gicon> {{photoDetail.likes && photoDetail.likes.length}}人喜欢</p>
     </div>
+    <view class="photoDetail01">
+      <ad unit-id="adunit-8d6c70439216eb94"></ad>
+    </view>
   </view>
 </template>
 
@@ -85,5 +88,8 @@ export default {
 }
 .navigator{
   display: inline-block;
+}
+.photoDetail01{
+
 }
 </style>

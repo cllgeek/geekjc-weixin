@@ -47,7 +47,7 @@ export default {
     position: relative;
     z-index: 1;
     font-size: 14px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
   }
   .blockItem:before{
     left: 6px;
@@ -74,7 +74,7 @@ export default {
   .bookImg{
     position: relative;
     display: table;
-    height: 150px;
+    height: 140px;
     width: 95%;
     background-color: #fff;
     overflow: hidden;
@@ -82,7 +82,7 @@ export default {
   }
   .bookImg image{
     width: 100%;
-    height: 144px;
+    height: 134px;
   }
   .bookImg a{
     display: table-cell;

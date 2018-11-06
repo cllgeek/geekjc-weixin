@@ -215,8 +215,10 @@ export default {
   }
   .scrollViewX{
     width: 100%;
-    height: 5vh;
+    height: 7vh;
+    line-height: 7vh;
     white-space: nowrap;
+    background-color: rgb(253, 252, 236);
   }
   .scrollViewItem{
     width:23%;

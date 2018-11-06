@@ -24,6 +24,9 @@
       </div>
     </view>
     <view>
+      <ad unit-id="adunit-53832189ef719df4"></ad>
+    </view>
+    <view>
       <h3 class="catalog">目录</h3>
       <div class="treeWrapper">
         <tree :catalog="ebookDesc.catalog"></tree>
@@ -85,7 +88,8 @@ export default {
 .header{
 	padding: 5px;
 	background-color: #fff;
-  height: 18vh;
+  height: 20vh;
+  overflow:hidden;
 }
 .header h3{
 	color: #333;

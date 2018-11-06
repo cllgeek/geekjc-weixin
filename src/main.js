@@ -18,13 +18,16 @@ export default {
     // 页面前带有 ^ 符号的，会被编译成首页，其他页面可以选填，我们会自动把 webpack entry 里面的入口页面加进去
     pages: ['^pages/index/main', 'pages/post/main',
       'pages/postDetail/main', 'pages/photo/main', 'pages/photoDetail/main', 'pages/ebook/ebookListPage/main', 'pages/ebook/ebookDesc/main',
-      'pages/ebook/ebookDetail/main', 'pages/login/main'],
+      'pages/ebook/ebookDetail/main', 'pages/my/main', 'pages/about/main'],
     window: {
       backgroundTextStyle: 'light',
-      navigationBarBackgroundColor: '#fff',
+      navigationBarBackgroundColor: '#ECB83E',
       navigationBarTitleText: '极客教程',
-      navigationBarTextStyle: 'black',
+      navigationBarTextStyle: '#fff',
     },
+    navigateToMiniProgramAppIdList: [
+      'wx18a2ac992306a5a4',
+    ],
     tabBar: {
       list: [{
         selectedIconPath: '/static/images/index_active.png',
@@ -46,6 +49,11 @@ export default {
         iconPath: '/static/images/photo.png',
         pagePath: 'pages/photo/main',
         text: '图片',
+      }, {
+        selectedIconPath: '/static/images/my_active.png',
+        iconPath: '/static/images/my.png',
+        pagePath: 'pages/my/main',
+        text: '我的',
       }],
     },
   },

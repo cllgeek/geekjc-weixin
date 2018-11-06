@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'iconfont';  /* project id 731859 */
-  src: url('//at.alicdn.com/t/font_731859_ffws33i14mi.eot');
-  src: url('//at.alicdn.com/t/font_731859_ffws33i14mi.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_731859_ffws33i14mi.woff') format('woff'),
-  url('//at.alicdn.com/t/font_731859_ffws33i14mi.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_731859_ffws33i14mi.svg#iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_731859_mn6rq18thwc.eot');
+  src: url('//at.alicdn.com/t/font_731859_mn6rq18thwc.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_731859_mn6rq18thwc.woff') format('woff'),
+  url('//at.alicdn.com/t/font_731859_mn6rq18thwc.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_731859_mn6rq18thwc.svg#iconfont') format('svg');
 }
 
 .iconfont {
@@ -24,6 +24,14 @@
 .icon-like:before { content: "\e630"; }
 
 .icon-comment:before { content: "\e667"; }
+
+.icon-weixin:before { content: "\e73b"; }
+
+.icon-xiaoxi:before { content: "\e601"; }
+
+.icon-guanyuwomen:before { content: "\e602"; }
+
+.icon-dianzan:before { content: "\e61f"; }
 
 .icon-caret-right:before { content: "\ef5e"; }
 
