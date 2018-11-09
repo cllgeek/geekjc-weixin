@@ -3,8 +3,8 @@
     <div class="scrollViewWrapper">
       <scroll-view
         class="scrollViewX"
-        :scroll-x='true'
-        :scroll-with-animation="true"
+        :scroll-x="scrollBoolean"
+        :scroll-with-animation="scrollBoolean"
         :scrollLeft='0'
         :lowerThreshold='20'
         :upperThreshold='20'
@@ -18,8 +18,8 @@
     </div>
     <scroll-view
       class="scrollViewY"
-      :scroll-y="true"
-      :scroll-with-animation="true"
+      :scroll-y="scrollBoolean"
+      :scroll-with-animation="scrollBoolean"
       :lowerThreshold='20'
       :upperThreshold='20'
       :enable-back-to-top="true"
@@ -38,14 +38,9 @@
           <postItem :items="results" />
         </view>
       </view>
-      <view v-else-if="item === 'ebook'">
+      <view v-else="item === 'ebook'">
         <view class="content-ebook">
           <ebookItem :items="results" />
-        </view>
-      </view>
-      <view v-else-if="item === 'photo'">
-        <view class="content-photo">
-          <photoList :items="results" />
         </view>
       </view>
       <view style="text-align: center;margin-top:20px" v-if="results.length === 0">暂无数据</view>
@@ -61,7 +56,6 @@
 import { post } from '@/utils/request';
 import defaultFollowTags from '../defaultTags';
 import postItem from './postItem';
-import photoList from './photoList';
 import ebookItem from './ebookItem';
 
 const getDefaultActiveItemOrUrl = (key) => {
@@ -69,11 +63,6 @@ const getDefaultActiveItemOrUrl = (key) => {
     return {
       url: '/api/tags/tag',
       activeItem: '前端开发'
-    };
-  } else if(key === 'photo') {
-    return {
-      url: '/api/tags/tagPhoto',
-      activeItem: '美食'
     };
   } else if(key === 'movie') {
     return {
@@ -87,6 +76,7 @@ export default {
   props: ['item'],
   data() {
     return {
+      scrollBoolean: true,
       defaultFollowTags: defaultFollowTags[this.item],
       activeItem: getDefaultActiveItemOrUrl(this.item).activeItem,
       results: [],
@@ -99,7 +89,6 @@ export default {
 
   components: {
     postItem,
-    photoList,
     ebookItem
   },
 
@@ -130,17 +119,7 @@ export default {
           });
         } else if(this.item === 'ebook') {
 
-        } else if(this.item === 'photo') {
-          result.tag[`${this.item}s`].map((val,i)=>{
-            contents.push({
-              id: val._id,
-              title: val.title,
-              likes: val.likes,
-              url: val.url,
-              pv: val.pv
-            });
-          });
-        };
+        }
         this.results = !clear ? this.results.concat(contents) : contents;
         this.nextPageOffset = result.nextPageOffset;
         this.isLoadMore = false;

@@ -29,25 +29,17 @@
       <text>最新文章</text>
       <navigator class='checkMore' url='/pages/post/main' open-type='switchTab' hover-class='navigatorHover'>查看更多</navigator>
     </view>
-    <view class="content-post">
-      <postItem :items="posts" />
-    </view>
     <view class="index01">
       <ad unit-id="adunit-ba3e040b2eb17836"></ad>
     </view>
-    <view class='itemHeader'>
-      <text>最新图片</text>
-      <navigator class='checkMore' url='/pages/photo/main' open-type='switchTab' hover-class='navigatorHover'>查看更多</navigator>
-    </view>
-    <view>
-      <photoList :items="photos" />
+    <view class="content-post">
+      <postItem :items="posts" />
     </view>
   </div>
 </template>
 
 <script>
 import postItem from '@/components/postItem';
-import photoList from '@/components/photoList';
 import gicon from '@/components/gicon';
 import { login, getUserInfo } from '@/utils/wechat';
 import { get } from '@/utils/request';
@@ -56,7 +48,6 @@ export default {
   data() {
     return {
       showHeaderInfo: true,
-      motto: 'Hello World',
       userInfo: {},
       ebooks: [],
       indicatorDots: true,
@@ -70,7 +61,6 @@ export default {
 
   components: {
     postItem,
-    photoList,
     gicon,
   },
 
@@ -113,6 +103,10 @@ export default {
     },
   },
   onLoad() {
+    // 显示转发按钮
+    wx.showShareMenu({
+      withShareTicket: true,
+    });
     // 获取首页数据
     this.listNewContent();
     // 获取前三电子书

@@ -29,19 +29,6 @@ const defaultFollowTags = {
   }, {
     title: '面试',
   }],
-  photo: [{
-    title: '美食',
-  }, {
-    title: '旅行',
-  }, {
-    title: '美女',
-  }, {
-    title: '汽车',
-  }, {
-    title: '游戏',
-  }, {
-    title: '宠物',
-  }],
 };
 
 export default defaultFollowTags;

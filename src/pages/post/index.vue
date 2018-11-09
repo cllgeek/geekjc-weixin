@@ -15,6 +15,12 @@ export default {
   components: {
     scrollPage,
   },
+  onLoad() {
+    // 显示转发按钮
+    wx.showShareMenu({
+      withShareTicket: true,
+    });
+  },
 };
 </script>
 
