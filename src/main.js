@@ -25,6 +25,7 @@ export default {
       navigationBarTextStyle: '#fff',
     },
     navigateToMiniProgramAppIdList: [
+      'wxf27694f18817f1ec',
       'wx18a2ac992306a5a4',
     ],
     tabBar: {

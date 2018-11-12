@@ -139,10 +139,9 @@ export default {
   display: inline-block;
   position: relative;
   top: -2px;
-  margin-left: -3px;
 }
 .ellipseBig{
-  margin-left:-4px;
+  margin-left:-1px;
   margin-right: -1px;
   font-size:30px;
 }

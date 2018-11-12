@@ -35,6 +35,13 @@
         <div class="weui-cell__bd">点击赞赏开发者小哥哥</div>
         <div class="weui-cell__ft weui-cell__ft_in-access">谢谢支持</div>
       </div>
+      <div class="weui-cell weui-cell_access" hover-class="weui-cell_active" @click.stop="onGotoBeauty">
+        <div class="weui-cell__hd">
+          <gicon type="like" sy="margin: 0 10px;font-size: 16px;color:rgb(120,158,218)"></gicon>
+        </div>
+        <div class="weui-cell__bd">学累了？放松一下吧。</div>
+        <div class="weui-cell__ft weui-cell__ft_in-access"></div>
+      </div>
       <navigator url="/pages/about/main" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
         <div class="weui-cell__hd">
           <gicon type="guanyuwomen" sy="margin: 0 10px;font-size: 16px;color:rgb(120,158,218)"></gicon>
@@ -98,6 +105,15 @@ export default {
           });
         }
       });
+    },
+    onGotoBeauty() {
+      wx.navigateToMiniProgram({
+        appId: 'wxf27694f18817f1ec',
+        path: 'pages/index/main',
+        success(res) {
+          console.log('跳转成功!')
+        },
+      })
     },
     onGotoOther() {
       wx.navigateToMiniProgram({
