@@ -113,11 +113,37 @@ export default {
     this.getTop3Ebook();
   },
   created() {
-    wx.login({
-      success: function(data) {
-        console.log(data);
-      },
-    })
+     wx.login({ //微信登录
+      success: function(res) { //登录成功后执行的的函数
+        console.log(res);
+        //发送 res.code 到后台换取 openId, sessionKey
+        // if (res.code) {
+        //   //发起网络请求
+        //   wx.request({
+        //     url: 'https://api.weixin.qq.com/sns/jscode2session',//这是固定的就是这个地址
+        //     data: {
+        //       appid:'wx127e067aeda88d10',//小程序的ID
+        //       secret:'598a3d9cb1e0d0aa68ba163c4dc2d78a',//小程序的密钥
+        //       js_code:res.code,
+        //       grant_type:'authorization_code'
+        //     },
+        //     method: 'POST',
+        //     header:{
+        //       'content-type': 'application/json' // 默认值
+        //     },
+        //     success: function(res) {
+        //       console.log(res.data.openId)//openId
+        //       console.log(res.data.session_key)//sessionKey
+        //     },
+        //     fail: function(res) {
+        //       console.log('获取openId、sessionKey失败！' + res.errMsg)
+        //     }
+        //   })
+        // } else {
+        //   console.log('获取用户登录态失败！' + res.errMsg)
+        // }
+      }
+    });
   },
 };
 </script>

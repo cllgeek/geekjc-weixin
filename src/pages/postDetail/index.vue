@@ -64,6 +64,11 @@ export default {
         post.meta.updateAt = post.meta && post.meta.updateAt ? this.$moment(post.meta.updateAt).format('YYYY-MM-DD') : post.meta.updateAt;
         this.post = post;
         this.nodes = MpvueMarkdownParser(encodeMd);
+
+        // 动态设置title
+        wx.setNavigationBarTitle({
+          title: post.title,
+        })
       });
     },
   },

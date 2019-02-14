@@ -1,4 +1,23 @@
+
+
+import { setStorage, removeStorage } from '@/utils/wechat';
+
 const baseUrl = 'https://www.geekjc.com';
+
+// 处理res
+function processRes(res) {
+  const result = res.data;
+  if (result && result.token) {
+    setStorage('token', result.token);
+    setStorage('user', JSON.stringify(result.user));
+  }
+  if (res && res.code === 10005) {
+    removeStorage('token');
+    removeStorage('user');
+    wx.navigateTo({ url: '/pages/login/main' });
+  }
+  return res;
+}
 
 /**
  * Requests a URL, returning a promise.
@@ -8,6 +27,8 @@ const baseUrl = 'https://www.geekjc.com';
  * @return {object}           An object containing either "data" or "err"
  */
 export default function request(method, url, body) {
+  const token = wx.getStorageSync('token');
+  // Do something with return value
   method = method.toUpperCase();
   if (method === 'GET') {
     body = undefined;
@@ -21,6 +42,7 @@ export default function request(method, url, body) {
       method,
       header: {
         'content-type': 'application/json',
+        authorization: token ? `Bearer ${token}` : undefined,
       },
       data: body,
       success: function (res) {
@@ -34,6 +56,7 @@ export default function request(method, url, body) {
       },
     });
   })
+    .then(res => processRes(res))
     .then(data => ({ data }))
     .catch(err => ({ err }));
 }

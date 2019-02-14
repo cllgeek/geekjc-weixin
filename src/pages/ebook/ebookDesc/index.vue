@@ -57,6 +57,9 @@ export default {
       post('/api/ebook/getEbookCatalog', { ebookId: id }).then((res) => {
         const result = res.data;
         this.ebookDesc = result;
+        wx.setNavigationBarTitle({
+          title: result.title,
+        })
       });
     },
 

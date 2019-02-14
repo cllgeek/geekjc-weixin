@@ -24,6 +24,12 @@ export function getStorage(key) {
   });
 }
 
+export function removeStorage(key) {
+  return new Promise((resolve, reject) => {
+    wx.removeStorage({ key, success: resolve, fail: reject });
+  });
+}
+
 export function getLocation(type) {
   return new Promise((resolve, reject) => {
     wx.getLocation({ type, success: resolve, fail: reject });
