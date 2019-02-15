@@ -16,7 +16,7 @@
       </div>
       <div style="text-align: center">
         <div v-if="ebookDesc.price > 0">
-            <button class="weui-btn mini-btn" type="default" size="mini" @click.stop="switchTo(ebookDesc && ebookDesc._id)">试读</button>
+            <button class="weui-btn mini-btn" type="default" size="mini" @click.stop="switchTo(ebookDesc && ebookDesc._id)">{{ purchase ? '已购买,开始阅读' : '试读'}}</button>
         </div>
         <div v-else>
           <button class="weui-btn mini-btn" type="default" size="mini" @click.stop="switchTo(ebookDesc && ebookDesc._id)">免费阅读</button>
@@ -38,6 +38,7 @@
 <script>
 import tree from '@/components/tree/tree';
 import { post } from '@/utils/request';
+import getUserInfo from '@/utils/getUserInfo';
 
 export default {
   data() {
@@ -45,6 +46,8 @@ export default {
       item: 'ebook',
       imgUrl: 'https://geekjc-img.geekjc.com/ebook.jpg',
       ebookDesc: {},
+      userInfo: getUserInfo() || {},
+      purchase: false,
     };
   },
 
@@ -57,6 +60,7 @@ export default {
       post('/api/ebook/getEbookCatalog', { ebookId: id }).then((res) => {
         const result = res.data;
         this.ebookDesc = result;
+        if(this.$lodash.findIndex(result.purchasers,(o) => o._id === this.userInfo.userId) >= 0) this.purchase = true;
         wx.setNavigationBarTitle({
           title: result.title,
         })

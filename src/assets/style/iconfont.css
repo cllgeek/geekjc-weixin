@@ -1,10 +1,11 @@
 @font-face {
   font-family: 'iconfont';  /* project id 731859 */
-  src: url('//at.alicdn.com/t/font_731859_mn6rq18thwc.eot');
-  src: url('//at.alicdn.com/t/font_731859_mn6rq18thwc.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_731859_mn6rq18thwc.woff') format('woff'),
-  url('//at.alicdn.com/t/font_731859_mn6rq18thwc.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_731859_mn6rq18thwc.svg#iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_731859_iezb6balok.eot');
+  src: url('//at.alicdn.com/t/font_731859_iezb6balok.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_731859_iezb6balok.woff2') format('woff2'),
+  url('//at.alicdn.com/t/font_731859_iezb6balok.woff') format('woff'),
+  url('//at.alicdn.com/t/font_731859_iezb6balok.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_731859_iezb6balok.svg#iconfont') format('svg');
 }
 
 .iconfont {
@@ -15,23 +16,51 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-caretdown:before { content: "\e633"; }
+.icon-logout:before {
+  content: "\e637";
+}
 
-.icon-collect:before { content: "\e60c"; }
+.icon-notebook:before {
+  content: "\e65f";
+}
 
-.icon-tuxing:before { content: "\e614"; }
+.icon-caretdown:before {
+  content: "\e633";
+}
 
-.icon-like:before { content: "\e630"; }
+.icon-collect:before {
+  content: "\e60c";
+}
 
-.icon-comment:before { content: "\e667"; }
+.icon-tuxing:before {
+  content: "\e614";
+}
 
-.icon-weixin:before { content: "\e73b"; }
+.icon-like:before {
+  content: "\e630";
+}
 
-.icon-xiaoxi:before { content: "\e601"; }
+.icon-comment:before {
+  content: "\e667";
+}
 
-.icon-guanyuwomen:before { content: "\e602"; }
+.icon-weixin:before {
+  content: "\e73b";
+}
 
-.icon-dianzan:before { content: "\e61f"; }
+.icon-xiaoxi:before {
+  content: "\e601";
+}
 
-.icon-caret-right:before { content: "\ef5e"; }
+.icon-guanyuwomen:before {
+  content: "\e602";
+}
+
+.icon-dianzan:before {
+  content: "\e61f";
+}
+
+.icon-caret-right:before {
+  content: "\ef5e";
+}
 

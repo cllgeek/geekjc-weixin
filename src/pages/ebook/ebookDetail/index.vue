@@ -62,6 +62,7 @@
 import tree from '@/components/tree/tree';
 import gicon from '@/components/gicon';
 import { post } from '@/utils/request';
+import getUserInfo from '@/utils/getUserInfo';
 import MpvueMarkdownParser from 'mpvue-markdown-parser';
 import 'mpvue-markdown-parser/dist/index.css';
 import 'prismjs/themes/prism.css';
@@ -84,6 +85,7 @@ export default {
       currentTitle: '',
       // 当前是否购买
       vip: true,
+      userInfo: getUserInfo() || {},
     };
   },
   components: {
@@ -130,6 +132,7 @@ export default {
     getEbookContent(currentCatalog, parent) {
       const params = {
         ebookId: this.ebookId,
+        loginId: this.userInfo.userId,
         currentCatalog,
       };
       post('/api/ebook/getEbookContent', params).then((res) => {

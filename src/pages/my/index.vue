@@ -25,27 +25,42 @@
     <div class="userInfo">
     </div>
     <div class="weui-cells weui-cells_after-title" style="margin-top: 10px">
+      <navigator url="/pages/purseEbook/main" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+        <div class="weui-cell__hd">
+          <gicon type="notebook" sy="margin: 0 10px;font-size: 20px;color:red"></gicon>
+        </div>
+        <div class="weui-cell__bd">已购买电子书</div>
+        <div class="weui-cell__ft weui-cell__ft_in-access"></div>
+      </navigator>
+    </div>
+    <div class="weui-cells weui-cells_after-title" style="margin-top: 10px">
       <div class="weui-cell weui-cell_access" hover-class="weui-cell_active" @click.stop="onGotoOther">
         <div class="weui-cell__hd">
-          <gicon type="dianzan" sy="margin: 0 10px;font-size: 16px;color:rgb(120,158,218)"></gicon>
+          <gicon type="dianzan" sy="margin: 0 10px;font-size: 20px;color:rgb(120,158,218)"></gicon>
         </div>
         <div class="weui-cell__bd">点击赞赏开发者小哥哥</div>
         <div class="weui-cell__ft weui-cell__ft_in-access">谢谢支持</div>
       </div>
       <div class="weui-cell weui-cell_access" hover-class="weui-cell_active" @click.stop="onGotoBeauty">
         <div class="weui-cell__hd">
-          <gicon type="like" sy="margin: 0 10px;font-size: 16px;color:rgb(120,158,218)"></gicon>
+          <gicon type="like" sy="margin: 0 10px;font-size: 20px;color:rgb(120,158,218)"></gicon>
         </div>
         <div class="weui-cell__bd">学累了？放松一下吧。</div>
         <div class="weui-cell__ft weui-cell__ft_in-access"></div>
       </div>
       <navigator url="/pages/about/main" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
         <div class="weui-cell__hd">
-          <gicon type="guanyuwomen" sy="margin: 0 10px;font-size: 16px;color:rgb(120,158,218)"></gicon>
+          <gicon type="guanyuwomen" sy="margin: 0 10px;font-size: 20px;color:rgb(120,158,218)"></gicon>
         </div>
         <div class="weui-cell__bd">关于我们</div>
         <div class="weui-cell__ft weui-cell__ft_in-access"></div>
       </navigator>
+      <div class="weui-cell weui-cell_access" hover-class="weui-cell_active" @click.stop="onLogout" v-if="name">
+        <div class="weui-cell__hd">
+          <gicon type="logout" sy="margin: 0 10px;font-size: 20px;color:rgb(120,158,218)"></gicon>
+        </div>
+        <div class="weui-cell__bd">退出登录</div>
+      </div>
     </div>
   </view>
 </template>
@@ -54,7 +69,7 @@
 import { post } from '@/utils/request';
 import sha256 from 'sha256';
 import gicon from '@/components/gicon';
-import { setStorage, getStorage } from '@/utils/wechat';
+import { setStorage, getStorage, removeStorage } from '@/utils/wechat';
 
 export default {
   data() {
@@ -160,6 +175,17 @@ export default {
         },
       })
     },
+    onLogout() {
+      removeStorage("token");
+      removeStorage("user");
+      this.name = '';
+      this.avatar = '';
+      return wx.showToast({
+        title: "退出成功",
+        icon: "success",
+        duration: 1000
+      });
+    }
   },
   onShow() {
     getStorage('user').then((res) => {
