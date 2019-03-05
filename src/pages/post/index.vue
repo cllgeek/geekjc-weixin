@@ -20,6 +20,10 @@ export default {
     wx.showShareMenu({
       withShareTicket: true,
     });
+    // 动态设置title
+    wx.setNavigationBarTitle({
+      title: '文章列表',
+    })
   },
 };
 </script>

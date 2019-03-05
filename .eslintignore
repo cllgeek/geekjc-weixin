@@ -2,3 +2,4 @@ build/*.js
 config/*.js
 src/pages/**/*.vue
 src/components/*.vue
+src/utils/*.js

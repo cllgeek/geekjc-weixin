@@ -22,6 +22,10 @@ export default {
     wx.showShareMenu({
       withShareTicket: true,
     });
+    // 动态设置title
+    wx.setNavigationBarTitle({
+      title: '电子书列表',
+    })
   },
 };
 </script>

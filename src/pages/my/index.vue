@@ -24,7 +24,7 @@
     </div>
     <div class="userInfo">
     </div>
-    <div class="weui-cells weui-cells_after-title" style="margin-top: 10px">
+    <div class="weui-cells weui-cells_after-title" style="margin-top: 10px" v-if="name">
       <navigator url="/pages/purseEbook/main" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
         <div class="weui-cell__hd">
           <gicon type="notebook" sy="margin: 0 10px;font-size: 20px;color:red"></gicon>
@@ -194,6 +194,12 @@ export default {
         this.name = userInfo.userName;
         this.avatar = userInfo.avatar;
       }
+    })
+  },
+  onLoad() {
+    // 动态设置title
+    wx.setNavigationBarTitle({
+      title: '我的',
     })
   },
 };

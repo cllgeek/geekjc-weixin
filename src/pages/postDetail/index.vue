@@ -1,34 +1,35 @@
 <template>
-  <view>
+  <view id="postDetail">
     <view class="postDetail">
-    <view class="title">{{post.title}}</view>
-    <view style='margin: 10px 0'>
-      <view class="infoLeft">
-        <image
-          class="avatar"
-          :src="post.author && post.author.avatar"
-        />
-        <view>
-          <view>{{post.author && post.author.name}}</view>
-          <view>{{post && post.meta && post.meta.updateAt}}
-            <text style='margin-left: 5px'>{{post.pv}}</text>
-          浏览</view>
+      <view class="title">{{post && post.title}}</view>
+      <view style='margin: 10px 0;padding: 10px'>
+        <view class="infoLeft">
+          <image
+            class="avatar"
+            :src="post.author && post.author.avatar"
+          />
+          <view>
+            <view>{{post.author && post.author.name}}</view>
+            <view>{{post && post.meta && post.meta.updateAt}}
+              <text style='margin-left: 5px'>{{post && post.pv}}</text>
+            浏览 <span @click.stop="pageScrollToBottom"><gicon type="comment" sy="margin-left: 10px;vertical-align:-2px;font-size: 18px"></gicon></span></view>
+          </view>
+        </view>
+        <button class="weui-btn mini-btn" type="default" size="mini" style='float: right;margin-top: 5px'>关注</button>
+      </view>
+      <view class="content">
+        <rich-text :nodes="nodes"></rich-text>
+        <view class="postDetail01">
+          <ad unit-id="adunit-2f4b257c455b1808"></ad>
         </view>
       </view>
-      <button class="weui-btn mini-btn" type="default" size="mini" style='float: right;margin-top: 5px'>关注</button>
+      <comment :userInfo="userInfo" :targetName="post && post.title" :authorId="post.author && post.author._id" commentType="1" :targetId="postId"></comment>
     </view>
-    <view class="content">
-      <rich-text :nodes="nodes"></rich-text>
-       <view class="postDetail01">
-         <ad unit-id="adunit-2f4b257c455b1808"></ad>
-       </view>
-    </view>
-  </view>
-    <div class="fixFooter flex-wrap row-flex">
+    <!-- <div class="fixFooter flex-wrap row-flex">
       <input class="commentInput flex-wrap" style="flex:4" placeholder="发表评论" />
       <view class="flex-wrap page"><gicon type="comment" sy="margin-left: 10px;vertical-align:9px;font-size: 20px"></gicon></view>
       <view class="flex-wrap page"><gicon type="collect" sy="margin-left: 10px;vertical-align:9px;font-size: 20px"></gicon></view>
-    </div>
+    </div> -->
   </view>
 </template>
 
@@ -37,12 +38,16 @@ import { get } from '@/utils/request';
 import gicon from '@/components/gicon';
 import MpvueMarkdownParser from 'mpvue-markdown-parser';
 import CryptoJS from 'crypto-js';
+import getUserInfo from "@/utils/getUserInfo";
+import comment from '@/components/comment';
 import 'mpvue-markdown-parser/dist/index.css';
 import 'prismjs/themes/prism.css';
 
 export default {
   data() {
     return {
+      postId: '',
+      userInfo: {},
       post: {},
       nodes: {},
     };
@@ -50,11 +55,12 @@ export default {
 
   components: {
     gicon,
+    comment,
   },
 
   methods: {
-    getPostDetail(id) {
-      get(`/fetch/post/list/${id}`).then((res) => {
+    getPostDetail() {
+      get(`/fetch/post/list/${this.postId}`).then((res) => {
         const result = res.data;
         const { post, md } = result;
         // 解密
@@ -71,9 +77,24 @@ export default {
         })
       });
     },
+    // 获取容器高度，使页面滚动到容器底部
+    pageScrollToBottom() {
+      wx.createSelectorQuery().select('#postDetail').boundingClientRect(function(rect){
+        // 使页面滚动到底部
+        wx.pageScrollTo({
+          scrollTop: rect.bottom
+        })
+      }).exec()
+    },
   },
-
-  created() {
+  onReady() {
+    this.post = {};
+    this.nodes = {};
+    this.userInfo = getUserInfo();
+    this.getPostDetail();
+  },
+  onShow() {
+    this.userInfo = getUserInfo();
   },
   onLoad(options) {
     // 显示转发按钮
@@ -81,19 +102,17 @@ export default {
       withShareTicket: true,
     });
     const { id } = options;
-    this.post = {};
-    this.nodes = {};
-    this.getPostDetail(id);
+    this.postId = id;
   },
 };
 </script>
 
 <style scoped>
 .postDetail{
-  padding: 10px;
   border-top: 1px solid #ddd;
 }
 .title{
+  margin-top: 10px;
   text-align: center;
   font-size: 14px;
 }

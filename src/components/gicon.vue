@@ -5,6 +5,9 @@
 <script>
 export default {
   props: ['type', 'sy'],
+  data() {
+    return {}
+  },
 };
 </script>
 

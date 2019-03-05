@@ -1,6 +1,9 @@
 <template>
-  <view class="content-ebook">
+  <view v-if="results.length !== 0" class="content-ebook">
     <ebookItem :items="results"/>
+  </view>
+  <view v-else>
+    <noData value="暂无购买电子书"></noData>
   </view>
 </template>
 
@@ -8,6 +11,7 @@
 import { post } from "@/utils/request";
 import getUserInfo from "@/utils/getUserInfo";
 import ebookItem from "../../components/ebookItem";
+import noData from "@/components/noData";
 
 export default {
   data() {
@@ -17,7 +21,8 @@ export default {
     };
   },
   components: {
-    ebookItem
+    ebookItem,
+    noData,
   },
   methods: {
     getUserEbooks() {
@@ -49,5 +54,10 @@ export default {
 <style scoped>
 .content-ebook {
   margin-top: 5px;
+}
+.not-book{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 </style>
