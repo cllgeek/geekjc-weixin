@@ -201,7 +201,6 @@ export default {
             element.createAt = this.$moment(element.meta.createAt).startOf('minute').fromNow();
            });
            _this.total = Math.ceil(result.count / _this.pageSize);
-
            // 如果是子评论，重新获取数据
            if(getEmbed) {
              let index = this.$lodash.findIndex(_this.comments,(o) => o._id === this.embedCuttentComment._id);

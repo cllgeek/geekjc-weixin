@@ -91,7 +91,7 @@
             <view v-else>
               <view v-if="topics.length !== 0">
                 <div v-for="(item, index) in topics" :key="item._id">
-                  <topicSingle :userInfo="userInfo" :value="item" />
+                  <topicSingle :userInfo="userInfo" :value="item" @onClickComment="onClickComment" />
                 </div>
               </view>
               <view v-else>
@@ -108,6 +108,25 @@
         <!-- <div class="weui-tab__content" :hidden="activeIndex != 1">选项二的内容</div> -->
       </div>
     </div>
+    <div class="mask" v-if="showComment" @click="showComment = false" catchtouchmove="ture">
+    </div>
+    <div class="treeWrapper" v-if="showComment" catchtouchmove="ture">
+      <scroll-view
+        class="scrollViewTreeY"
+        :scroll-y="true"
+        :scroll-with-animation="true"
+      >
+        <comment
+          :userInfo="userInfo"
+          :targetName="currentItem.content && currentItem.content.slice(0,10)"
+          :authorId="currentItem.author && currentItem.author._id"
+          commentType="2"
+          :targetId="currentItem._id"
+          @getCommentsLength="getLength"
+        >
+        </comment>
+      </scroll-view>
+    </div>
   </div>
 </template>
 
@@ -115,12 +134,14 @@
 import { get, post } from '@/utils/request';
 import getUserInfo from "@/utils/getUserInfo";
 import qiniuUploader from "@/utils/qiniuUploader";
+import comment from '@/components/comment';
 import gicon from '@/components/gicon';
 import topicSingle from '@/components/topicSingle';
 
 export default {
   data() {
     return {
+      showComment: false,
       defaultTagTitles: [],
       defaultTags: [],
       index: 0,
@@ -142,11 +163,14 @@ export default {
       showEmptyTag: false,
 
       areaFocus: false,
+
+      currentItem: {},
     };
   },
   components: {
     gicon,
-    topicSingle
+    topicSingle,
+    comment,
   },
   computed: {
     navbarSliderClass() {
@@ -159,6 +183,15 @@ export default {
     }
   },
   methods: {
+    onClickComment(item) {
+      this.currentItem = item;
+      this.showComment = true;
+    },
+    getLength(commentsLength) {
+      const _this = this;
+      const index = this.$lodash.findIndex(_this.topics,(o) => o._id === _this.currentItem._id);
+      this.topics[index].commentsLength = commentsLength;
+    },
     bindPickerChange(e) {
       // console.log('选中的值为：' + this.defaultTagTitles[e.mp.detail.value]);
       this.choicedTag = this.defaultTagTitles[e.mp.detail.value];
@@ -463,5 +496,24 @@ export default {
 .scrollViewY{
   background-color: #f8f8f8;
   width: 100%;
+}
+.scrollViewTreeY{
+  height: 78vh;
+}
+.mask{
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  background: #666;
+  opacity: 0.8;
+}
+.treeWrapper{
+  height:78vh;
+  background-color:#fff;
+  position:fixed;
+  width:100vw;
+  bottom:0;
+  z-index: 999
 }
 </style>

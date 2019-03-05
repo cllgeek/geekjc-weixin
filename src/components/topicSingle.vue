@@ -33,28 +33,9 @@
           <span style="font-size: 14px;color: #666;" @click.stop="like(value._id,value.likes)"><gicon type="dianzan" sy="margin-left: 10px;vertical-align:middle;font-size: 20px"></gicon>{{likesLength}}</span>
         </div>
         <div class="weui-flex__item">
-          <span style="font-size: 14px;color: #666;" @click.stop="onClickComment(value)"><gicon type="comment" sy="margin-left: 10px;vertical-align:middle;font-size: 20px"></gicon>{{value.commentsLength}}评论</span>
+          <span style="font-size: 14px;color: #666;" @click.stop="onComment(value)"><gicon type="comment" sy="margin-left: 10px;vertical-align:middle;font-size: 20px"></gicon>{{value.commentsLength}}评论</span>
         </div>
       </div>
-    </div>
-    <div class="mask" v-if="showComment" @click="showComment = false" catchtouchmove="ture">
-    </div>
-    <div class="treeWrapper" v-if="showComment" catchtouchmove="ture">
-      <scroll-view
-        class="scrollViewTreeY"
-        :scroll-y="true"
-        :scroll-with-animation="true"
-      >
-        <comment
-          :userInfo="userInfo"
-          :targetName="currentItem.content && currentItem.content.slice(0,10)"
-          :authorId="currentItem.author && currentItem.author._id"
-          commentType="2"
-          :targetId="currentItem._id"
-          @getCommentsLength="getLength"
-        >
-        </comment>
-      </scroll-view>
     </div>
   </view>
 </template>
@@ -65,7 +46,7 @@ import comment from '@/components/comment';
 import gicon from '@/components/gicon';
 
 export default {
-  props: ['userInfo', 'value'],
+  props: ['userInfo', 'value', 'onClickComment'],
   data() {
     return {
       showComment: false,
@@ -77,8 +58,8 @@ export default {
     comment,
   },
   methods: {
-    getLength(commentsLength) {
-      this.value.commentsLength = commentsLength;
+    onComment() {
+      this.$emit('onClickComment', this.value);
     },
     viewImage(current, item) {
       wx.previewImage({
@@ -137,24 +118,5 @@ export default {
   width: 100%;
   max-width: 120px;
 	height: 100%;
-}
-.scrollViewTreeY{
-  height: 78vh;
-}
-.mask{
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  top: 0;
-  background: #666;
-  opacity: 0.8;
-}
-.treeWrapper{
-  height:78vh;
-  background-color:#fff;
-  position:fixed;
-  width:100vw;
-  bottom:0;
-  z-index: 999
 }
 </style>
