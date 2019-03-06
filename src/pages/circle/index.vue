@@ -429,6 +429,9 @@ export default {
   onShow() {
     this.userInfo = getUserInfo();
   },
+  onHide() {
+
+  },
   onLoad() {
     this.userInfo = getUserInfo();
     // 显示转发按钮
@@ -507,6 +510,7 @@ export default {
   top: 0;
   background: #666;
   opacity: 0.8;
+  z-index: 996
 }
 .treeWrapper{
   height:78vh;

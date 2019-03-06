@@ -33,6 +33,15 @@
         <div class="weui-cell__ft weui-cell__ft_in-access"></div>
       </navigator>
     </div>
+    <div class="weui-cells weui-cells_after-title" style="margin-top: 10px" v-if="name">
+      <navigator url="/pages/publishCircle/main" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+        <div class="weui-cell__hd">
+          <gicon type="notebook" sy="margin: 0 10px;font-size: 20px;color:red"></gicon>
+        </div>
+        <div class="weui-cell__bd">我的动态</div>
+        <div class="weui-cell__ft weui-cell__ft_in-access"></div>
+      </navigator>
+    </div>
     <div class="weui-cells weui-cells_after-title" style="margin-top: 10px">
       <div class="weui-cell weui-cell_access" hover-class="weui-cell_active" @click.stop="onGotoOther">
         <div class="weui-cell__hd">

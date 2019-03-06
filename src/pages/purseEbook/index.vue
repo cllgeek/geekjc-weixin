@@ -3,7 +3,7 @@
     <ebookItem :items="results"/>
   </view>
   <view v-else>
-    <noData value="暂无购买电子书"></noData>
+    <noData value="暂无购买电子书" text="去购买" url="/pages/ebook/ebookListPage/main"></noData>
   </view>
 </template>
 
@@ -46,6 +46,9 @@ export default {
     }
   },
   onLoad() {
+     wx.setNavigationBarTitle({
+      title: '已购买电子书',
+    })
     this.getUserEbooks();
   }
 };

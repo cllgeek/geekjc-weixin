@@ -25,6 +25,7 @@
           </div>
           <div style="margin: 5px 0">
             <span class="tagSingle" v-if="value.tag">{{value.tag.title}}</span>
+            <span v-if="!child" style="color: #108ee9;font-size: 14px;margin-left: 20px" @click.stop="onGoToDetail(value._id)">查看详情</span>
           </div>
         </div>
       </div>
@@ -46,7 +47,7 @@ import comment from '@/components/comment';
 import gicon from '@/components/gicon';
 
 export default {
-  props: ['userInfo', 'value', 'onClickComment'],
+  props: ['userInfo', 'value', 'onClickComment', 'child'],
   data() {
     return {
       showComment: false,
@@ -58,6 +59,9 @@ export default {
     comment,
   },
   methods: {
+    onGoToDetail(id) {
+       wx.navigateTo({ url: `/pages/circleDetail/main?id=${id}` });
+    },
     onComment() {
       this.$emit('onClickComment', this.value);
     },
@@ -81,7 +85,7 @@ export default {
       post('/api/topic/like',params).then(res=>{
         if(res) {
           const result = res.data
-          if(result) {
+          if(result && result.code !== 10005) {
             if(type === 2){
               _this.value.likes.pop();
             } else {

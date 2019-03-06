@@ -53,7 +53,7 @@
     <div v-if="total !== 0">
       <pagination :current="current" :total="total" @onChange="onPageChange"></pagination>
     </div>
-    <div class="mask" v-if="showCatalog" @click="showCatalog = false" catchtouchmove="ture">
+    <div class="mask" v-if="showCatalog" @click.stop="showCatalog = false" catchtouchmove="ture">
     </div>
     <div class="treeWrapper" v-if="showCatalog" catchtouchmove="ture">
       <scroll-view
@@ -339,6 +339,7 @@ export default {
   top: 0;
   background: #666;
   opacity: 0.8;
+  z-index: 998
 }
 .treeWrapper{
   height:60vh;
