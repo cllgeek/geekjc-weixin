@@ -15,8 +15,8 @@
             (作者)
         </div>
         <div class="paperback">
-          <span class="price">
-            {{item.price ? item.price : '免费'}}
+          <span class="price" >
+            {{item.price ? (!ios ? item.price : '查看') : '免费'}}
           </span>
         </div>
       </div>
@@ -29,6 +29,7 @@ export default {
   props: ['items'],
   data() {
     return {
+      ios: false,
       imgUrl: 'https://geekjc-img.geekjc.com/ebook.jpg',
     }
   },
@@ -36,6 +37,16 @@ export default {
     switchTo(id) {
       wx.navigateTo({ url: `/pages/ebook/ebookDesc/main?id=${id}` });
     },
+  },
+  onLoad() {
+    const _this = this;
+    wx.getSystemInfo({
+      success(res) {
+        if(res.platform == "ios") {
+          _this.ios = true;
+        }
+      }
+    });
   },
 };
 

@@ -6,7 +6,7 @@
           <div class="weui-cells weui-cells_after-title">
             <div class="weui-cell">
               <div class="weui-cell__bd">
-                <textarea class="" placeholder="发布动态内容" style="height: 3.3em" @input="onTextAreaChange" :focus="areaFocus" />
+                <textarea class="" :value="topicContent" placeholder="发布动态内容" style="height: 3.3em" @input="onTextAreaChange" @blur="onTextAreaBlur" :focus="areaFocus" />
                 <div class="weui-textarea-counter">0/200</div>
               </div>
             </div>
@@ -150,6 +150,7 @@ export default {
       scrollBoolean: true,
       userInfo: {},
       files: [],
+      photos: [],
       token: '',
       tabs: ["推荐", "动态"],
       activeIndex: 0,
@@ -214,6 +215,9 @@ export default {
       this.topicContent = this.topicContent.trim();
       if(this.topicContent) this.showEmptyContent = false;
     },
+    onTextAreaBlur() {
+      this.areaFocus = false;
+    },
     // 发布话题
     publishTopic() {
       const _this = this;
@@ -223,7 +227,7 @@ export default {
         loginId: this.userInfo.userId,
         content: this.topicContent,
         tag: this.defaultTags[this.index],
-        photos: this.files,
+        photos: this.photos,
       }
       post('/api/topic/create', params).then(res => {
         const result = res.data;
@@ -240,7 +244,7 @@ export default {
               createAt: new Date(),
             },
             content: _this.topicContent,
-            photos: _this.files,
+            photos: _this.photos,
             tag: params.tag,
             likes: [],
             comments: [],
@@ -250,6 +254,7 @@ export default {
           // 清空数据
           _this.topicContent = '';
           _this.choicedTag = undefined;
+          _this.files = [];
 
           return wx.showToast({
             title: '发布成功！',
@@ -300,6 +305,7 @@ export default {
               res => {
                 console.log("result is: " + res)
                 console.log("file url is: " + res.fileUrl);
+                _this.photos = _this.photos.concat(res.fileUrl);
               },
               error => {
                 console.error("error: " + JSON.stringify(error));
@@ -307,7 +313,7 @@ export default {
               {
                 region: 'ECN', // 华北区
                 uptoken: _this.token,
-                domain: 'https:/geekjc-img.geekjc.com',
+                domain: 'https://geekjc-img.geekjc.com',
                 shouldUseQiniuFileName: true,
               },
               // null, // 可以使用上述参数，或者使用 null 作为参数占位符

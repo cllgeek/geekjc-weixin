@@ -26,7 +26,7 @@
             </div>
             <div class="weui-msg__text-area">
                 <div class="weui-msg__title">本章节为付费阅读</div>
-                <div class="weui-msg__desc">如想购买电子书，请前往电脑版本购买本电子书，可解锁阅读，网址：https://www.geekjc.com</div>
+                <div v-if="!ios" class="weui-msg__desc">如想购买电子书，请前往电脑版本购买本电子书，可解锁阅读，网址：https://www.geekjc.com</div>
             </div>
         </div>
       </div>
@@ -70,6 +70,7 @@ import 'prismjs/themes/prism.css';
 export default {
   data() {
     return {
+      ios: false,
       showHeaderInfo: true,
       scrollTop: 0,
       showCatalog: false,
@@ -282,6 +283,14 @@ export default {
     },
   },
   onLoad(options) {
+    const _this = this;
+    wx.getSystemInfo({
+      success(res) {
+        if(res.platform == "ios") {
+          _this.ios = true;
+        }
+      }
+    });
     // 显示转发按钮
     wx.showShareMenu({
       withShareTicket: true,
