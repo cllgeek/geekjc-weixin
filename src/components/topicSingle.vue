@@ -17,6 +17,7 @@
               <div class="weui-flex__item" v-for="(val, i) in value.photos" :key="i">
                 <image
                   v-on:click='viewImage(val, value)'
+                  mode="widthFix"
                   class="singlePhoto"
                   :src="val"
                 />

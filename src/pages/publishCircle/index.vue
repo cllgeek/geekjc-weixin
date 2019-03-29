@@ -163,6 +163,9 @@ export default {
       }, 1000)
     },
   },
+  onShow() {
+    this.userInfo = getUserInfo();
+  },
   onLoad() {
      wx.setNavigationBarTitle({
       title: '我的动态',

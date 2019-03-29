@@ -45,6 +45,9 @@ export default {
       });
     }
   },
+  onShow() {
+    this.userInfo = getUserInfo();
+  },
   onLoad() {
      wx.setNavigationBarTitle({
       title: '已购买电子书',
